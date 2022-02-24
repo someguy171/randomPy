@@ -1,6 +1,3 @@
-from doctest import OutputChecker
-
-
 letters = {}
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 
@@ -10,69 +7,73 @@ for num in range(0,10):
 for count, i in enumerate(alphabet):
     letters[i] = int(count)+10
 
-print(letters)
 
 def main():
     print("The following program supports bases 2 to 36.\n")
     # get the original number, its base, and the target base from the user
     originalBase, targetBase = 0, 0
     
-    originalNum = input("Enter a number: ")
+    originalStrNum = input("Enter a number: ")
+    originalNum = cleanNum(originalStrNum)
     
     while originalBase < 2 or originalBase > 36 or not isinstance(originalBase, int):
         originalBase = int(input("What base was that number in? "))
+    
+    if not checkMax(list(originalNum), originalBase):
+        print("Your number is not in base", str(originalBase) + ".\nPlease run the program again.")
+        raise SystemExit(0)
     
     while targetBase < 2 or targetBase > 36 or not isinstance(targetBase, int):
         targetBase = int(input("What base do you want to convert to? "))
     
     # if the original number is not denary, convert it to denary
     if originalBase != 10:
-        num = to10(cleanNum(originalNum), originalBase)
-        print("num", num)
+        num = to10(originalNum, originalBase)
     else:
         num = originalNum
-        
+    
     # convert the denary number to the target base
     toPass = []
     remList = getRems(num, targetBase, toPass)
     remList.reverse()
     
+    remList = convertToBase(remList)
+    
     final = ""
     for item in remList:
         final += str(item)
     
-    print(originalNum, "in base", str(originalBase), "is", final + ".")
+    print(originalStrNum, "in base", str(targetBase), "is", final + ".")
 
 
-def checkMax(numString, base):
-    maxVal = base - 1
-    for char in numString:
-        if letters[char] + 1 > base:
-            
-        # you need to find the max value of each base
-        # this is fine for base 2-10, but then they start using letters
-        # get the key from the key-pair value in the dict and use that to find the maxVal
-        # or do something else idk
-        
-        
-        # base 2 = 1
-        # base 3 = 2
-        # base 4 = 3
-        # base 5 = 4
-        # base 6 = 5
-        # base 7 = 6
-        # base 11 = a
-        # base 12 = b
+def convertToBase(remList):
+    outputList = []
+    for item in remList:
+        if item > 9:
+            outputList.append(list(letters.keys())[list(letters.values()).index(item)])
+        else:
+            outputList.append(item)
+    return outputList
+
+
+def checkMax(numList, base):
+    valueList = [value for value in letters.values()]
+    for num in numList:
+        if int(valueList[int(num)]) >= base:
+            return False
+    return True
 
 
 def cleanNum(numString):
     if numString.isnumeric():
         numList = [int(num) for num in numString]
     else:
-        numList = list(numString)
-        for char in numList:
+        numList = []
+        for char in list(numString):
             if not char.isnumeric():
                 numList.append(letters[char.lower()])
+            else:
+                numList.append(int(char))
     return numList
 
 
