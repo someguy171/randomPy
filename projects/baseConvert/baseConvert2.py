@@ -1,9 +1,12 @@
+# create an empty dictionary to store the alphabet
 letters = {}
 alphabet = "abcdefghijklmnopqrstuvwxyz"
 
+# for bases 2 to 9, numbers don't change
 for num in range(0,10):
     letters[str(num)] = num
 
+# for bases 10 to 26, each letter of the alphabet corresponds to numbers 10 to 35
 for count, i in enumerate(alphabet):
     letters[i] = int(count)+10
 
@@ -11,34 +14,36 @@ for count, i in enumerate(alphabet):
 def main():
     print("The following program supports bases 2 to 36.\n")
     # get the original number, its base, and the target base from the user
-    originalBase, targetBase = 0, 0
-    
-    originalStrNum = input("Enter a number: ")
+    originalStrNum, originalBase, targetBase = input("Enter a number: "), 0, 0
+
+    # clean the input, so any letters are replaced with their corresponding value
     originalNum = cleanNum(originalStrNum)
     
+    # ensure the number's base is between 2 and 26, and is an integer
     while originalBase < 2 or originalBase > 36 or not isinstance(originalBase, int):
         originalBase = int(input("What base was that number in? "))
     
+    # check that the input can be in the base provided
+    # see the checkMax function for more details
     if not checkMax(list(originalNum), originalBase):
+        # if the input is invalid, stop the program
         print("Your number is not in base", str(originalBase) + ".\nPlease run the program again.")
         raise SystemExit(0)
     
+    # ensure the target base is between 2 and 26, and is an integer
     while targetBase < 2 or targetBase > 36 or not isinstance(targetBase, int):
         targetBase = int(input("What base do you want to convert to? "))
     
-    # if the original number is not denary, convert it to denary
-    if originalBase != 10:
-        num = to10(originalNum, originalBase)
-    else:
-        num = originalNum
+    # convert the number to denary
+    num = to10(originalNum, originalBase)
     
-    # convert the denary number to the target base
+    # convert the new denary number to the target base
     toPass = []
     remList = getRems(num, targetBase, toPass)
     remList.reverse()
-    
     remList = convertToBase(remList)
     
+    # append each value in the converted list to a string, and output that string
     final = ""
     for item in remList:
         final += str(item)
