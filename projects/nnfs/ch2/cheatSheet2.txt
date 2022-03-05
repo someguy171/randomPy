@@ -1,0 +1,27 @@
+array = homologous (list of lists)
+vector = list
+
+dot product = vector1[n] * vector2[n] + vector1[n+1] * vector2[n+1] ...
+	    = returns a scalar (single value)
+	    = basically inputs*weights
+
+vector addition = vector1[n] + vector2[n], vector1[n+1] + vector2[n+1]...
+		= returns a vector (however long the original two vectors were)
+
+matrix product = dot product of each row against each column
+	       = row of first, column of second
+	       = returns a matrix (row length of m1, column length of m2)
+
+row vector = matrix with 1D size (no. of rows) of 1
+column vector = matrix with 2D (no. of columns) size of 1
+perform matrix product on these (gives the same as dot product but as a matrix with 1 value, not scalar)
+
+transposition = an operation done on a matrix
+	      = columns become rows
+	      = rows become columns
+
+to do matrix product of two vectors in numpy, convert one vector into matrix
+					      convert the other into matrix and TRANSPOSE
+					      then do dot product
+for matricies just to dot product
+
