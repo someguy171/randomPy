@@ -5,6 +5,7 @@ b = 1.0                 # bias
 # assume these have been found from ch9-3
 # these are the partial derivatives of ReLU with respect to the weights
 dw = [1.0, -2.0, 3.0]
+
 # this is the partial derivative of ReLU with respect to the bias
 db = 1.0
 
